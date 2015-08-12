@@ -67,6 +67,10 @@ pdata1<-readRDS("data/PAK_adm1.rds")
 pdata2<-readRDS("data/PAK_adm2.rds") 
 pdata3<-readRDS("data/PAK_adm3.rds") 
 
+# write.csv(data2$NAME_2,file="dt.csv")
+# write.csv(bdata2$NAME_2,file="bt.csv")
+# write.csv(pdata2$NAME_2,file="pt.csv")
+
 par(mfrow=c(2,2))
 par(mai=c(0.4,0.4,0.4,0.4))
 plot(pdata)
