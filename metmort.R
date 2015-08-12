@@ -1,15 +1,35 @@
-# A "R SpatialPolygonsDataFrame" (.rds) file can be used in R.
-# To use it, first load the sp package using 
-library(sp) 
-# and then use 
+# load libraries
 
-data<-readRDS("IND_adm0.rds") 
-#(obviously replacing "filename.rds" with the actual filename). 
-# See the CRAN spatial task view.
-# Note that this is different R file format than used in previous versions (the RData format that could be read via 'load').
-data1<-readRDS("IND_adm1.rds") 
-data2<-readRDS("IND_adm2.rds") 
-data3<-readRDS("IND_adm3.rds") 
+library(sp) 
+
+#  raw data check
+ben<-read.csv("data/bengal.csv",header=T)
+pun<-read.csv("data/punjab.csv",header=T)
+mad<-read.csv("data/madras.csv",header=T)
+sin<-read.csv("data/sind.csv",header=T)
+
+# plot
+par(mfrow=c(2,4))
+plot(as.numeric(as.character(ben$Mch)), main="Bengal - Cholera",ylab="")
+plot(pun$Mch, main="Punjab - Cholera",ylab="")
+plot(mad$Mch, main="Madras - Cholera",ylab="")
+plot(sin$Mch, main="Sind - Cholera",ylab="")
+
+plot(ben$Mfv, main="Bengal - fever",ylab="")
+plot(pun$Mfv, main="Punjab - fever",ylab="")
+plot(mad$Mfv, main="Madras - fever",ylab="")
+plot(sin$Mfv, main="Sind - fever",ylab="")
+
+# rds shapefiles from http://www.gadm.org/
+# India
+
+data<-readRDS("data/IND_adm0.rds") 
+data1<-readRDS("data/IND_adm1.rds") 
+data2<-readRDS("data/IND_adm2.rds") 
+data3<-readRDS("data/IND_adm3.rds") 
+
+# plot
+# India
 
 par(mfrow=c(2,2))
 par(mai=c(0.4,0.4,0.4,0.4))
@@ -18,11 +38,13 @@ plot(data1)
 plot(data2)
 plot(data3)
 
-bdata<-readRDS("BGD_adm0.rds") 
-bdata1<-readRDS("BGD_adm1.rds") 
-bdata2<-readRDS("BGD_adm2.rds") 
-bdata3<-readRDS("BGD_adm3.rds") 
-bdata4<-readRDS("BGD_adm4.rds") 
+# Bangladesh
+
+bdata<-readRDS("data/BGD_adm0.rds") 
+bdata1<-readRDS("data/BGD_adm1.rds") 
+bdata2<-readRDS("data/BGD_adm2.rds") 
+bdata3<-readRDS("data/BGD_adm3.rds") 
+bdata4<-readRDS("data/BGD_adm4.rds") 
 
 par(mfrow=c(2,3))
 par(mai=c(0.4,0.4,0.4,0.4))
@@ -32,10 +54,12 @@ plot(bdata2)
 plot(bdata3)
 plot(bdata4)
 
-pdata<-readRDS("PAK_adm0.rds") 
-pdata1<-readRDS("PAK_adm1.rds") 
-pdata2<-readRDS("PAK_adm2.rds") 
-pdata3<-readRDS("PAK_adm3.rds") 
+# Pakistan
+
+pdata<-readRDS("data/PAK_adm0.rds") 
+pdata1<-readRDS("data/PAK_adm1.rds") 
+pdata2<-readRDS("data/PAK_adm2.rds") 
+pdata3<-readRDS("data/PAK_adm3.rds") 
 
 par(mfrow=c(2,2))
 par(mai=c(0.4,0.4,0.4,0.4))
@@ -50,32 +74,38 @@ plot(data2,col="grey95")
 plot(pdata2,add=T,col="grey65")
 plot(bdata2,add=T,col="grey65")
 
-plot(data)
-plot(data1,add=T)
-plot(data2,add=T)
-plot(data3,add=T)
-plot(pdata, add=T)
-plot(pdata1,add=T)
-plot(pdata2,add=T)
-plot(pdata3,add=T)
-plot(bdata, add=T)
-plot(bdata1,add=T)
-plot(bdata2,add=T)
-plot(bdata3,add=T)
-plot(bdata4,add=T)
-
+# all levels
 # 
-# # Chittagong (Ba)
-# # Dacca, Dhaka (Ba)
-# # Jessore (Ba)
-# Calcutta  (Alipore Observatory) (WB)
+# plot(data)
+# plot(data1,add=T)
+# plot(data2,add=T)
+# plot(data3,add=T)
+# plot(pdata, add=T)
+# plot(pdata1,add=T)
+# plot(pdata2,add=T)
+# plot(pdata3,add=T)
+# plot(bdata, add=T)
+# plot(bdata1,add=T)
+# plot(bdata2,add=T)
+# plot(bdata3,add=T)
+# plot(bdata4,add=T)
+# 
+
+## find districts
+## NF == Not Found YET
+
+# NF Chittagong (Ba)
+# NF Dacca, Dhaka (Ba)
+# NF Jessore (Ba)
+# NF Calcutta  (Alipore Observatory) (WB)
 # 512 Saugor Island, South 24-Parganas (WB)
 # 497 Burdwan, Barddhaman (WB)
-# ? 423 Berhampore, Baharampur (WB)
+# ?? 423 ?? Berhampore, Baharampur (WB)
 # 564 Purnea, Purnia (Bi)
 # 273 Cuttack (O)
-## to fin them...
-# data2[grep("Cuttack", data2$NAME_2, ignore.case=T),]
+## to find them...
+
+data2[grep("Cuttack", data2$NAME_2, ignore.case=T),]
 
 plot(data2[2],col=c(rep("grey",272),"red",rep("grey",150),#"red",
                     rep("grey",73),"red",rep("grey",14),"red",
@@ -92,11 +122,11 @@ plot(bdata2[2],
 # 386 Salem (T)
 # 371 Coimbatore (T)
 # 380 Negapatam, Nagapattinam (T)
-# Trichinopoly, Tiruchirappalli (T)
+# NF Trichinopoly, Tiruchirappalli (T)
 # 370 Madras, Chennai (T)
-# Masulipatam, Machlipatam (AP)
+# NF Masulipatam, Machlipatam (AP)
 # 102 Bellary (K)
-# Vizagapatam*, Vishakapatam (AP)
+# NF Vizagapatam*, Vishakapatam (AP)
 
 plot(data2[2],col=c(rep("grey",101),"blue",rep("grey",267),#"red",
                     rep("blue",2),rep("grey",7),rep("blue",2),
@@ -122,16 +152,19 @@ plot(pdata2[2],col=c(rep("grey",10),"green",rep("grey",5),"green",
                     rep("grey",5),"green","grey","green",
                     rep("grey",8)),add=T)
 
-#
-# Jacobabad
-# Shikarpur
+# NF Jacobabad
+# NF Shikarpur
 # 400 Hyderabad
 # 29 pdata Karachi
 
 plot(data2[2],col=c(rep("grey",399),"orange",rep("grey",194)))
 plot(pdata2[2],col=c(rep("lightgrey",28),"orange",rep("lightgrey",4)),add=T)
 
-## all together
+## plot all together
+
+## TO DO  #########################################
+## sort out plotting code by ID tag in data files #
+###################################################
 
 par(mai=c(0.4,0.4,0.4,0.4))
 
