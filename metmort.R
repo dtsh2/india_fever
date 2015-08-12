@@ -9,7 +9,11 @@ mad<-read.csv("data/madras.csv",header=T)
 sin<-read.csv("data/sind.csv",header=T)
 
 # plot
+
+pdf("raw_data.pdf", width=10, height=5)
 par(mfrow=c(2,4))
+par(mai=c(0.4,0.4,0.4,0.4))
+
 plot(as.numeric(as.character(ben$Mch)), main="Bengal - Cholera",ylab="")
 plot(pun$Mch, main="Punjab - Cholera",ylab="")
 plot(mad$Mch, main="Madras - Cholera",ylab="")
@@ -19,6 +23,8 @@ plot(ben$Mfv, main="Bengal - fever",ylab="")
 plot(pun$Mfv, main="Punjab - fever",ylab="")
 plot(mad$Mfv, main="Madras - fever",ylab="")
 plot(sin$Mfv, main="Sind - fever",ylab="")
+dev.off()
+
 
 # rds shapefiles from http://www.gadm.org/
 # India
