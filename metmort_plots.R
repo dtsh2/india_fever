@@ -428,15 +428,41 @@ post.gp_ben <- spT.Gibbs(formula = Mfv ~ Rtotal+Rdays+Tmean,
                      data = ben_total1, model = "GP",
                      coords = ~ Longitude + Latitude, #scale.transform = "SQRT",
                      spatial.decay = spT.decay(distribution = Gamm(2, 1), tuning = 0.1))
+
 summary(post.gp_ben)
 plot(post.gp_ben)
+write.csv(x=post.gp_ben$parameter,file='post.gp_ben.csv')
 
 post.gp_ben_c <- spT.Gibbs(formula = Mch ~ Rtotal+Rdays+Tmean,
                          data = ben_total1, model = "GP",
                          coords = ~ Longitude + Latitude, #scale.transform = "SQRT",
                          spatial.decay = spT.decay(distribution = Gamm(2, 1), tuning = 0.1))
 summary(post.gp_ben_c)
+write.csv(x=post.gp_ben_c$parameter,file='post.gp_ben_c.csv')
 plot(post.gp_ben_c)
+
+# library(dplyr)
+# ben_total2 <- 
+#   ben_total1 %>%
+#   group_by(Stations) %>%
+#   mutate(lag.Rtotal1 = dplyr::lag(Tmean, n = 1, default = NA),
+#          lag.Rtotal2 = dplyr::lag(Tmean, n = 2, default = NA))
+# 
+# ben_total2<-na.omit(ben_total2)
+# 
+# post.gp_ben <- spT.Gibbs(formula = Mfv ~ Rtotal+Rdays+Tmean+lag.Rtotal1+lag.Rtotal2,
+#                          data = ben_total2, model = "GP",
+#                          coords = ~ Longitude + Latitude, #scale.transform = "SQRT",
+#                          spatial.decay = spT.decay(distribution = Gamm(2, 1), tuning = 0.1))
+# summary(post.gp_ben)
+# plot(post.gp_ben)
+# 
+# post.gp_ben_c <- spT.Gibbs(formula = Mch ~ Rtotal+Rdays+Tmean+lag.Rtotal1+lag.Rtotal2,
+#                            data = ben_total2, model = "GP",
+#                            coords = ~ Longitude + Latitude, #scale.transform = "SQRT",
+#                            spatial.decay = spT.decay(distribution = Gamm(2, 1), tuning = 0.1))
+# summary(post.gp_ben_c)
+# plot(post.gp_ben_c)
 
 ######################
 mad_ll<-read.csv("data/madras_lat_long.csv",header=T,stringsAsFactors = F)
@@ -453,6 +479,8 @@ post.gp_mad <- spT.Gibbs(formula = Mfv ~ Rtotal+Rdays+Tmean,
                          coords = ~ Longitude + Latitude, #scale.transform = "SQRT",
                          spatial.decay = spT.decay(distribution = Gamm(2, 1), tuning = 0.1))
 summary(post.gp_mad)
+write.csv(x=post.gp_mad$parameter,file='post.gp_mad.csv')
+
 plot(post.gp_mad)
 
 post.gp_mad_c <- spT.Gibbs(formula = Mch ~ Rtotal+Rdays+Tmean,
@@ -460,6 +488,8 @@ post.gp_mad_c <- spT.Gibbs(formula = Mch ~ Rtotal+Rdays+Tmean,
                            coords = ~ Longitude + Latitude, #scale.transform = "SQRT",
                            spatial.decay = spT.decay(distribution = Gamm(2, 1), tuning = 0.1))
 summary(post.gp_mad_c)
+write.csv(x=post.gp_mad_c$parameter,file='post.gp_mad_c.csv')
+
 plot(post.gp_mad_c)
 
 ########################
@@ -478,6 +508,8 @@ post.gp_pun <- spT.Gibbs(formula = Mfv ~ Rtotal+Rdays+Tmean,
                          coords = ~ Longitude + Latitude, #scale.transform = "SQRT",
                          spatial.decay = spT.decay(distribution = Gamm(2, 1), tuning = 0.1))
 summary(post.gp_pun)
+write.csv(x=post.gp_pun$parameter,file='post.gp_pun.csv')
+
 plot(post.gp_pun)
 
 post.gp_pun_c <- spT.Gibbs(formula = Mch ~ Rtotal+Rdays+Tmean,
@@ -485,6 +517,8 @@ post.gp_pun_c <- spT.Gibbs(formula = Mch ~ Rtotal+Rdays+Tmean,
                            coords = ~ Longitude + Latitude, #scale.transform = "SQRT",
                            spatial.decay = spT.decay(distribution = Gamm(2, 1), tuning = 0.1))
 summary(post.gp_pun_c)
+write.csv(x=post.gp_pun_c$parameter,file='post.gp_pun_c.csv')
+
 plot(post.gp_pun_c)
 
 ###########################
@@ -503,6 +537,8 @@ post.gp_sin <- spT.Gibbs(formula = Mfv ~ Rtotal+Rdays+Tmean,
                          coords = ~ Longitude + Latitude, #scale.transform = "SQRT",
                          spatial.decay = spT.decay(distribution = Gamm(2, 1), tuning = 0.1))
 summary(post.gp_sin)
+write.csv(x=post.gp_sin$parameter,file='post.gp_sin.csv')
+
 plot(post.gp_sin)
 
 post.gp_sin_c <- spT.Gibbs(formula = Mch ~ Rtotal+Rdays+Tmean,
@@ -510,6 +546,8 @@ post.gp_sin_c <- spT.Gibbs(formula = Mch ~ Rtotal+Rdays+Tmean,
                            coords = ~ Longitude + Latitude, #scale.transform = "SQRT",
                            spatial.decay = spT.decay(distribution = Gamm(2, 1), tuning = 0.1))
 summary(post.gp_sin_c)
+write.csv(x=post.gp_sin_c$parameter,file='post.gp_sin_c.csv')
+
 plot(post.gp_sin_c)
 
 ### plot all the variables for one station
@@ -518,7 +556,7 @@ names(sin)
 ggplot(sin,aes(x=Date)) + 
   geom_line(aes(y=Tmean)) + 
   geom_line(aes(y=Rtotal),colour='blue') + 
-  ylab("Mean temp & total rain") +
+  ylab("Mean temperature & total rain") +
   ggtitle("Sind climate")
 
 ggplot(sin,aes(x=Date)) + 
@@ -528,17 +566,26 @@ ggplot(sin,aes(x=Date)) +
   ggtitle("Sind mortality")
 
 ggplot(sin,aes(x=Date)) + 
-  geom_line(aes(y=Rtotal)) + 
-  geom_line(aes(y=Mfv/max(Mfv)),colour="red")  + 
-  ylab("Mortality data") +
+  geom_line(aes(y=Rtotal/max(Rtotal,na.rm =T))) + 
+  geom_line(aes(y=Mfv/max(Mfv,na.rm =T)),colour="red")  + 
+  ylab("Scaled fever data & rain") +
   ggtitle("Sind mortality")
 
+ggplot(sin,aes(x=Date)) + 
+  geom_line(aes(y=Rtotal/max(Rtotal,na.rm = T))) + 
+  geom_line(aes(y=Mch/max(Mch,na.rm =T)),colour="red")  + 
+  ylab("Scaled cholera & rain") +
+  ggtitle("Sind mortality")
 
+###
+
+
+names(pun)
 ggplot(pun,aes(x=Date)) + 
   geom_line(aes(y=Tmean)) + 
-  geom_line(aes(y=Rtotal),colour="blue")  + 
-  ylab("Mean temp & total rain") +
-  ggtitle("Punjab climate") 
+  geom_line(aes(y=Rtotal),colour='blue') + 
+  ylab("Mean temperature & total rain") +
+  ggtitle("Punjab climate")
 
 ggplot(pun,aes(x=Date)) + 
   geom_line(aes(y=Mfv)) + 
@@ -546,11 +593,69 @@ ggplot(pun,aes(x=Date)) +
   ylab("Mortality data") +
   ggtitle("Punjab mortality")
 
+ggplot(pun,aes(x=Date)) + 
+  geom_line(aes(y=Rtotal/max(Rtotal,na.rm =T))) + 
+  geom_line(aes(y=Mfv/max(Mfv,na.rm =T)),colour="red")  + 
+  ylab("Scaled fever data & rain") +
+  ggtitle("Punjab mortality")
+
+ggplot(pun,aes(x=Date)) + 
+  geom_line(aes(y=Rtotal/max(Rtotal,na.rm = T))) + 
+  geom_line(aes(y=Mch/max(Mch,na.rm =T)),colour="red")  + 
+  ylab("Scaled cholera & rain") +
+  ggtitle("Punjab mortality")
+
+##
+
+
+names(mad)
 ggplot(mad,aes(x=Date)) + 
   geom_line(aes(y=Tmean)) + 
-  geom_line(aes(y=Rtotal)) 
+  geom_line(aes(y=Rtotal),colour='blue') + 
+  ylab("Mean temperature & total rain") +
+  ggtitle("Madras climate")
 
 ggplot(mad,aes(x=Date)) + 
   geom_line(aes(y=Mfv)) + 
-  geom_line(aes(y=Mch,colour=Station)) 
+  geom_line(aes(y=Mch),colour="red")  + 
+  ylab("Mortality data") +
+  ggtitle("Madras mortality")
 
+ggplot(mad,aes(x=Date)) + 
+  geom_line(aes(y=Rtotal/max(Rtotal,na.rm =T))) + 
+  geom_line(aes(y=Mfv/max(Mfv,na.rm =T)),colour="red")  + 
+  ylab("Scaled fever data & rain") +
+  ggtitle("Madras mortality")
+
+ggplot(mad,aes(x=Date)) + 
+  geom_line(aes(y=Rtotal/max(Rtotal,na.rm = T))) + 
+  geom_line(aes(y=Mch/max(Mch,na.rm =T)),colour="red")  + 
+  ylab("Scaled cholera & rain") +
+  ggtitle("Madras mortality")
+
+##
+
+names(ben)
+ggplot(ben,aes(x=Date)) + 
+  geom_line(aes(y=Tmean)) + 
+  geom_line(aes(y=Rtotal),colour='blue') + 
+  ylab("Mean temperature & total rain") +
+  ggtitle("Bengal climate")
+
+ggplot(ben,aes(x=Date)) + 
+  geom_line(aes(y=Mfv)) + 
+  geom_line(aes(y=Mch),colour="red")  + 
+  ylab("Mortality data") +
+  ggtitle("Bengal mortality")
+
+ggplot(ben,aes(x=Date)) + 
+  geom_line(aes(y=Rtotal/max(Rtotal,na.rm =T))) + 
+  geom_line(aes(y=Mfv/max(Mfv,na.rm =T)),colour="red")  + 
+  ylab("Scaled fever data & rain") +
+  ggtitle("Bengal mortality")
+
+ggplot(ben,aes(x=Date)) + 
+  geom_line(aes(y=Rtotal/max(Rtotal,na.rm = T))) + 
+  geom_line(aes(y=Mch/max(Mch,na.rm =T)),colour="red")  + 
+  ylab("Scaled cholera & rain") +
+  ggtitle("Bengal mortality")
