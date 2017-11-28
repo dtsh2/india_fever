@@ -424,7 +424,7 @@ library(spTimer)
 #                       spatial.decay = spT.decay(distribution = Gamm(2, 1), tuning = 0.1))
 ben_total1<-na.omit(ben_total)
 
-post.gp_ben <- spT.Gibbs(formula = Mfv ~ Rtotal+Rdays+Tmean,
+post.gp_ben <- spT.Gibbs(formula = Mfv ~ Rtotal+Hmean+Tmean,
                      data = ben_total1, model = "GP",
                      coords = ~ Longitude + Latitude, #scale.transform = "SQRT",
                      spatial.decay = spT.decay(distribution = Gamm(2, 1), tuning = 0.1))
@@ -433,7 +433,7 @@ summary(post.gp_ben)
 plot(post.gp_ben)
 write.csv(x=post.gp_ben$parameter,file='post.gp_ben.csv')
 
-post.gp_ben_c <- spT.Gibbs(formula = Mch ~ Rtotal+Rdays+Tmean,
+post.gp_ben_c <- spT.Gibbs(formula = Mch ~ Rtotal+Hmean+Tmean,
                          data = ben_total1, model = "GP",
                          coords = ~ Longitude + Latitude, #scale.transform = "SQRT",
                          spatial.decay = spT.decay(distribution = Gamm(2, 1), tuning = 0.1))
@@ -450,14 +450,14 @@ plot(post.gp_ben_c)
 # 
 # ben_total2<-na.omit(ben_total2)
 # 
-# post.gp_ben <- spT.Gibbs(formula = Mfv ~ Rtotal+Rdays+Tmean+lag.Rtotal1+lag.Rtotal2,
+# post.gp_ben <- spT.Gibbs(formula = Mfv ~ Rtotal+Hmean+Tmean+lag.Rtotal1+lag.Rtotal2,
 #                          data = ben_total2, model = "GP",
 #                          coords = ~ Longitude + Latitude, #scale.transform = "SQRT",
 #                          spatial.decay = spT.decay(distribution = Gamm(2, 1), tuning = 0.1))
 # summary(post.gp_ben)
 # plot(post.gp_ben)
 # 
-# post.gp_ben_c <- spT.Gibbs(formula = Mch ~ Rtotal+Rdays+Tmean+lag.Rtotal1+lag.Rtotal2,
+# post.gp_ben_c <- spT.Gibbs(formula = Mch ~ Rtotal+Hmean+Tmean+lag.Rtotal1+lag.Rtotal2,
 #                            data = ben_total2, model = "GP",
 #                            coords = ~ Longitude + Latitude, #scale.transform = "SQRT",
 #                            spatial.decay = spT.decay(distribution = Gamm(2, 1), tuning = 0.1))
@@ -470,11 +470,11 @@ mad_ll<-read.csv("data/madras_lat_long.csv",header=T,stringsAsFactors = F)
 mad_total <- merge(mad_ll,mad,by="Station") ## NOTE STATION vs STATIONS
 
 #ggplot()+geom_polygon(data=data,aes(x=long,y=lat,group=group)) 
-ggplot() +  geom_point(data=mad_total, aes(x=Longitude, y=Latitude,fill=Mfv))
+# ggplot() +  geom_point(data=mad_total, aes(x=Longitude, y=Latitude,fill=Mfv))
 mad_total<-mad_total[ , -which(names(mad_total) %in% c("Mmille"))]
 mad_total1<-na.omit(mad_total)
 
-post.gp_mad <- spT.Gibbs(formula = Mfv ~ Rtotal+Rdays+Tmean,
+post.gp_mad <- spT.Gibbs(formula = Mfv ~ Rtotal+Hmean+Tmean,
                          data = mad_total1, model = "GP",
                          coords = ~ Longitude + Latitude, #scale.transform = "SQRT",
                          spatial.decay = spT.decay(distribution = Gamm(2, 1), tuning = 0.1))
@@ -483,7 +483,7 @@ write.csv(x=post.gp_mad$parameter,file='post.gp_mad.csv')
 
 plot(post.gp_mad)
 
-post.gp_mad_c <- spT.Gibbs(formula = Mch ~ Rtotal+Rdays+Tmean,
+post.gp_mad_c <- spT.Gibbs(formula = Mch ~ Rtotal+Hmean+Tmean,
                            data = mad_total1, model = "GP",
                            coords = ~ Longitude + Latitude, #scale.transform = "SQRT",
                            spatial.decay = spT.decay(distribution = Gamm(2, 1), tuning = 0.1))
@@ -499,11 +499,11 @@ pun_ll<-read.csv("data/punjab_lat_long.csv",header=T,stringsAsFactors = F)
 pun_total <- merge(pun_ll,pun,by="Station",all=T) ## NOTE STATION vs STATIONS
 
 #ggplot()+geom_polygon(data=data,aes(x=long,y=lat,group=group)) 
-ggplot() +  geom_point(data=pun_total, aes(x=Longitude, y=Latitude,fill=Mfv))
+# ggplot() +  geom_point(data=pun_total, aes(x=Longitude, y=Latitude,fill=Mfv))
 # pun_total<-pun_total[ , -which(names(pun_total) %in% c("Mmille"))]
  pun_total1<-na.omit(pun_total)
 
-post.gp_pun <- spT.Gibbs(formula = Mfv ~ Rtotal+Rdays+Tmean,
+post.gp_pun <- spT.Gibbs(formula = Mfv ~ Rtotal+Hmean+Tmean,
                          data = pun_total1, model = "GP",
                          coords = ~ Longitude + Latitude, #scale.transform = "SQRT",
                          spatial.decay = spT.decay(distribution = Gamm(2, 1), tuning = 0.1))
@@ -512,7 +512,7 @@ write.csv(x=post.gp_pun$parameter,file='post.gp_pun.csv')
 
 plot(post.gp_pun)
 
-post.gp_pun_c <- spT.Gibbs(formula = Mch ~ Rtotal+Rdays+Tmean,
+post.gp_pun_c <- spT.Gibbs(formula = Mch ~ Rtotal+Hmean+Tmean,
                            data = pun_total1, model = "GP",
                            coords = ~ Longitude + Latitude, #scale.transform = "SQRT",
                            spatial.decay = spT.decay(distribution = Gamm(2, 1), tuning = 0.1))
@@ -528,11 +528,11 @@ sin_ll<-read.csv("data/sind_lat_long.csv",header=T,stringsAsFactors = F)
 sin_total <- merge(sin_ll,sin,by="Station") ## NOTE STATION vs STATIONS
 
 #ggplot()+geom_polygon(data=data,aes(x=long,y=lat,group=group)) 
-ggplot() +  geom_point(data=sin_total, aes(x=Longitude, y=Latitude,fill=Mfv))
+# ggplot() +  geom_point(data=sin_total, aes(x=Longitude, y=Latitude,fill=Mfv))
 sin_total<-sin_total[ , -which(names(sin_total) %in% c("Mmille","X","Met.region"))]
 sin_total1<-na.omit(sin_total)
 
-post.gp_sin <- spT.Gibbs(formula = Mfv ~ Rtotal+Rdays+Tmean,
+post.gp_sin <- spT.Gibbs(formula = Mfv ~ Rtotal+Hmean+Tmean,
                          data = sin_total1, model = "GP",
                          coords = ~ Longitude + Latitude, #scale.transform = "SQRT",
                          spatial.decay = spT.decay(distribution = Gamm(2, 1), tuning = 0.1))
@@ -541,7 +541,7 @@ write.csv(x=post.gp_sin$parameter,file='post.gp_sin.csv')
 
 plot(post.gp_sin)
 
-post.gp_sin_c <- spT.Gibbs(formula = Mch ~ Rtotal+Rdays+Tmean,
+post.gp_sin_c <- spT.Gibbs(formula = Mch ~ Rtotal+Hmean+Tmean,
                            data = sin_total1, model = "GP",
                            coords = ~ Longitude + Latitude, #scale.transform = "SQRT",
                            spatial.decay = spT.decay(distribution = Gamm(2, 1), tuning = 0.1))
