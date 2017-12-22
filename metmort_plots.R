@@ -84,7 +84,7 @@ ben<- ben[-which(ben$Year<1878),] # remove max and first section (2 yrs)
 ben<-ben[-which.max(ben$Mfv),]
 ben<-ben[-which.max(ben$Mch),]
 
-qplot(Date, Mfv, data = ben, colour = Stations, main="Bengal - fever") # remove max and first section (2 yrs)
+qplot(Date, Mfv, data = ben, colour = Station, main="Bengal - fever") # remove max and first section (2 yrs)
 ggsave(
   "Bengalfever.png",
   #ggplot_alternative(),
@@ -93,7 +93,7 @@ ggsave(
   dpi = 1200
 )
 
-qplot(Date, Mch, data = ben, colour = Stations, main="Bengal - cholera") # remove max
+qplot(Date, Mch, data = ben, colour = Station, main="Bengal - cholera") # remove max
 ggsave(
   "Bengalcholera.png",
   #ggplot_alternative(),
@@ -102,7 +102,7 @@ ggsave(
   dpi = 1200
 )
 
-qplot(Date, Tmean, data = ben, colour = Stations, main="Bengal - mean temperature")
+qplot(Date, Tmean, data = ben, colour = Station, main="Bengal - mean temperature")
 ggsave(
   "Bengalmeantemperature.png",
   #ggplot_alternative(),
@@ -111,7 +111,7 @@ ggsave(
   dpi = 1200
 )
 
-qplot(Date, Rtotal, data = ben, colour = Stations, main="Bengal - total rain")
+qplot(Date, Rtotal, data = ben, colour = Station, main="Bengal - total rain")
 ggsave(
   "Bengaltotalrain.png",
   #ggplot_alternative(),
@@ -120,7 +120,7 @@ ggsave(
   dpi = 1200
 )
 
-qplot(Date, Rdays, data = ben, colour = Stations, main="Bengal - rain days")
+qplot(Date, Rdays, data = ben, colour = Station, main="Bengal - rain days")
 ggsave(
   "Bengalraindays.png",
   #ggplot_alternative(),
@@ -130,7 +130,7 @@ ggsave(
 )
 
 ## smooth
-qplot(Date, Mfv, data = ben, colour = Stations, geom = c("smooth"),
+qplot(Date, Mfv, data = ben, colour = Station, geom = c("smooth"),
       span = 0.05, main="Bengal - fever (smooth)")
 ggsave(
   "Bengalfeversmooth.png",
@@ -140,7 +140,7 @@ ggsave(
   dpi = 1200
 )
 
-qplot(Date, Mch, data = ben, colour = Stations, geom = c("smooth"),
+qplot(Date, Mch, data = ben, colour = Station, geom = c("smooth"),
       span = 0.05, main="Bengal - cholera (smooth)")
 ggsave(
   "Bengalcholerasmooth.png",
@@ -290,7 +290,7 @@ ggsave(
   height = 4.25,
   dpi = 1200
 )
-qplot(Date, Rtotal, data = ben, colour = Stations, geom = c("smooth"),
+qplot(Date, Rtotal, data = ben, colour = Station, geom = c("smooth"),
       span = 0.05, main="Bengal - total rain") + ylim(-2.75,30)
 ggsave(
   "Bengaltotalrainsmooth_scaled.png",
@@ -318,7 +318,7 @@ ggsave(
   height = 4.25,
   dpi = 1200
 )
-qplot(Date, Mfv, data = ben, colour = Stations, geom = c("smooth"),
+qplot(Date, Mfv, data = ben, colour = Station, geom = c("smooth"),
       span = 0.05, main="Bengal - fever")+ ylim(-2.75,10000)
 ggsave(
   "Bengalfeversmooth_scaled.png",
@@ -336,7 +336,7 @@ ggsave(
   height = 4.25,
   dpi = 1200
 )
-qplot(Date, Mfv, data = ben, colour = Stations, main="Bengal - fever")+ ylim(-2.75,14000)
+qplot(Date, Mfv, data = ben, colour = Station, main="Bengal - fever")+ ylim(-2.75,14000)
 ggsave(
   "Bengalfever_scaled.png",
   #ggplot_alternative(),
@@ -352,7 +352,7 @@ ggsave(
   height = 4.25,
   dpi = 1200
 )
-qplot(Date, Mch, data = ben, colour = Stations, main="Bengal - cholera")+ ylim(-2.75,10000)
+qplot(Date, Mch, data = ben, colour = Station, main="Bengal - cholera")+ ylim(-2.75,10000)
 ggsave(
   "Bengalcholera_scaled.png",
   #ggplot_alternative(),
@@ -364,7 +364,7 @@ ggsave(
 
 ben_ll<-read.csv("data/bengal_lat_long.csv",header=T,stringsAsFactors = F)
 library(dplyr)
-ben_total <- merge(ben_ll,ben,by="Stations")
+ben_total <- merge(ben_ll,ben,by="Station")
 
 #  library(scatterplot3d)
 #  scatterplot3d(x=ben_total1$Longitude, y=ben_total1$Date, z=ben_total1$Mfv, highlight.3d = T, angle = 125,
@@ -444,7 +444,7 @@ plot(post.gp_ben_c)
 # library(dplyr)
 # ben_total2 <- 
 #   ben_total1 %>%
-#   group_by(Stations) %>%
+#   group_by(Station) %>%
 #   mutate(lag.Rtotal1 = dplyr::lag(Tmean, n = 1, default = NA),
 #          lag.Rtotal2 = dplyr::lag(Tmean, n = 2, default = NA))
 # 
