@@ -501,7 +501,7 @@ pun_total <- merge(pun_ll,pun,by="Station",all=T) ## NOTE STATION vs STATIONS
 #ggplot()+geom_polygon(data=data,aes(x=long,y=lat,group=group)) 
 # ggplot() +  geom_point(data=pun_total, aes(x=Longitude, y=Latitude,fill=Mfv))
 # pun_total<-pun_total[ , -which(names(pun_total) %in% c("Mmille"))]
- pun_total1<-na.omit(pun_total)
+pun_total1<-na.omit(pun_total)
 
 post.gp_pun <- spT.Gibbs(formula = Mfv ~ Rtotal+Hmean+Tmean,
                          data = pun_total1, model = "GP",
@@ -659,3 +659,27 @@ ggplot(ben,aes(x=Date)) +
   geom_line(aes(y=Mch/max(Mch,na.rm =T)),colour="red")  + 
   ylab("Scaled cholera & rain") +
   ggtitle("Bengal mortality")
+
+## analyse all together
+mad_total1<-mad_total1[,-c(6,13)]
+pun_total1<-pun_total1[,-6]
+
+data<-rbind(ben_total1,sin_total1,mad_total1,pun_total1)
+
+all_fev <- spT.Gibbs(formula = Mfv ~ Rtotal+Hmean+Tmean,
+                         data = data, model = "GP",
+                         coords = ~ Longitude + Latitude, #scale.transform = "SQRT",
+                         spatial.decay = spT.decay(distribution = Gamm(2, 1), tuning = 0.1))
+summary(all_fev)
+write.csv(x=all_fev$parameter,file='all_fev.csv')
+
+plot(all_fev)
+
+all_chol <- spT.Gibbs(formula = Mch ~ Rtotal+Hmean+Tmean,
+                           data = data, model = "GP",
+                           coords = ~ Longitude + Latitude, #scale.transform = "SQRT",
+                           spatial.decay = spT.decay(distribution = Gamm(2, 1), tuning = 0.1))
+summary(all_chol)
+write.csv(x=all_chol$parameter,file='all_chol.csv')
+
+plot(all_chol)
